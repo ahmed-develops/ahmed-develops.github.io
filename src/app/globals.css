@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-hover: var(--accent-hover);
+  --color-emerald: var(--emerald);
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+:root {
+  /* Faware Blush / Warm Rose Cream Theme (matching reference image) */
+  --bg: #FDF6F7;
+  --surface: #FFFFFF;
+  --surface-raised: #F8EDEF;
+  --text-primary: #161314;
+  --text-secondary: #685D62;
+  --text-muted: #9B8E94;
+  --hairline: #EED8DC;
+  --accent: #E25263;
+  --accent-subtle: rgba(226, 82, 99, 0.08);
+  --accent-hover: #CE4051;
+  --emerald: #10B981;
+  --emerald-glow: rgba(16, 185, 129, 0.18);
+  --dot-color: rgba(226, 82, 99, 0.16);
+  --pill-border: #161314;
+}
+
+.dark {
+  /* Velvet Rose-Obsidian Dark Mode */
+  --bg: #120E11;
+  --surface: #1B1519;
+  --surface-raised: #271E24;
+  --text-primary: #FAF4F6;
+  --text-secondary: #ABA0A6;
+  --text-muted: #7E7178;
+  --hairline: #382A31;
+  --accent: #E25263;
+  --accent-subtle: rgba(226, 82, 99, 0.16);
+  --accent-hover: #F26D7D;
+  --emerald: #10B981;
+  --emerald-glow: rgba(16, 185, 129, 0.20);
+  --dot-color: rgba(226, 82, 99, 0.10);
+  --pill-border: #FAF4F6;
+}
+
+/* Hairline Grid & Typography defaults */
+html {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot-color) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Soft luminous vignette matching the reference image */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.7) 0%, rgba(253, 246, 247, 0.2) 65%, transparent 100%);
+  z-index: -1;
+}
+
+.dark body::before {
+  background: radial-gradient(circle at 50% 12%, rgba(226, 82, 99, 0.05) 0%, transparent 75%);
+}
+
+/* Custom scrollbar for minimalist editorial feel */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hairline);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Subtle selection state */
+::selection {
+  background-color: var(--accent);
+  color: #FFFFFF;
+}
+
+/* Hairline utility classes */
+.hairline-border {
+  border-color: var(--hairline);
+}
+
+.hairline-b {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.hairline-t {
+  border-top: 1px solid var(--hairline);
+}
+
+.hairline-l {
+  border-left: 1px solid var(--hairline);
+}
+
+.hairline-r {
+  border-right: 1px solid var(--hairline);
+}
+
+.hairline-all {
+  border: 1px solid var(--hairline);
+}
