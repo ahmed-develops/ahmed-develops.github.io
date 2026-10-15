@@ -26,14 +26,14 @@ const PROMPT_RESPONSES: Record<string, ToolResponse> = {
       summary: "3 production case studies spanning hardware appliances, WebGL observability, and token compilers.",
       badge: "3 RESULTS RETURNED",
       details: [
-        "KitchOS (2025–2026): Industrial tablet OS & BLE scale sync. Reduced food waste logging time by 42%.",
+        "FinScore (2025–2026): Open Banking ML pipeline on Basiq API 3.0. Reduced transaction classification latency by 91% with >96% accuracy.",
         "Relay Mesh (2024–2025): 60fps WebGL telemetry graph. Collapsed incident triage from 14.2m down to 3.8m.",
         "Kernel DS (2023–2024): Multi-brand headless token compiler. 64% bundle size reduction with zero drift.",
       ],
       rawJson: {
         total: 3,
         projects: [
-          { slug: "kitch-os", role: "Staff Designer & Architect", impact: "-42% friction" },
+          { slug: "fin-score", role: "Lead AI & Fintech Engineer", impact: ">96% categorisation accuracy" },
           { slug: "relay-mesh", role: "Principal Design Engineer", impact: "-73% MTTD" },
           { slug: "kernel-ds", role: "Design Systems Lead", impact: "-64% bundle size" },
         ],

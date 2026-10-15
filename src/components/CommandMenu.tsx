@@ -46,14 +46,14 @@ export function CommandMenu({
   const items: CommandItem[] = [
     // Case Studies
     {
-      id: "case-faware-os",
+      id: "case-fin-score",
       category: "Case Studies",
-      title: "01 / FawareOS",
-      subtitle: "Agentic AI operating system to auto-pilot culinary workflows",
+      title: "01 / FinScore & Spending Behaviour Analysis",
+      subtitle: "Open Banking ML pipeline on Basiq API 3.0 (CDR)",
       shortcut: "↵",
       action: () => {
         onClose();
-        onOpenCaseStudy("faware-os");
+        onOpenCaseStudy("fin-score");
       },
     },
     {

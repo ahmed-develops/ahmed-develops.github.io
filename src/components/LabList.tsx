@@ -18,7 +18,7 @@ const LAB_BUILDS: LabItem[] = [
     title: "Spending Behaviour Analysis and Financial Scoring",
     // description: "Visual AI pipeline for multi-document synthesis & semantic clustering",
     // badge: "New",
-    href: "/work/kitch-os", // or dedicated demo
+    href: "/work/fin-score",
     year: "2026",
   },
   {

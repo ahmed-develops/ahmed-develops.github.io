@@ -11,12 +11,12 @@ export async function generateStaticParams() {
   const base = MONNET_CASE_STUDIES.map((c) => ({
     slug: c.slug,
   }));
-  return [...base, { slug: "kitch-os" }];
+  return [...base, { slug: "kitch-os" }, { slug: "faware-os" }];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const targetSlug = slug === "kitch-os" ? "faware-os" : slug;
+  const targetSlug = slug === "kitch-os" || slug === "faware-os" ? "fin-score" : slug;
   const study = MONNET_CASE_STUDIES.find((c) => c.slug === targetSlug);
   if (!study) return { title: "Case Study Not Found" };
 
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = await params;
-  const targetSlug = slug === "kitch-os" ? "faware-os" : slug;
+  const targetSlug = slug === "kitch-os" || slug === "faware-os" ? "fin-score" : slug;
   const study = MONNET_CASE_STUDIES.find((c) => c.slug === targetSlug);
 
   if (!study) {

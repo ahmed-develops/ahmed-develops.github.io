@@ -1,18 +1,32 @@
 "use client";
 
 import React, { useState } from "react";
-import { KitchenArtifact } from "./InteractiveArtifacts/KitchenArtifact";
+import { FinScoreArtifact } from "./InteractiveArtifacts/FinScoreArtifact";
 import { RelayMeshArtifact } from "./InteractiveArtifacts/RelayMeshArtifact";
 import { KernelDsArtifact } from "./InteractiveArtifacts/KernelDsArtifact";
 
+export type SurfaceType = "finscore" | "topology" | "tokens";
+
 interface SurfaceSwitcherProps {
-  initialSurface?: "scale" | "topology" | "tokens";
+  initialSurface?: SurfaceType | string;
+  studySlug?: string;
 }
 
 export function MultiSurfaceSwitcher({
-  initialSurface = "scale",
+  initialSurface = "finscore",
+  studySlug,
 }: SurfaceSwitcherProps) {
-  const [activeSurface, setActiveSurface] = useState<"scale" | "topology" | "tokens">(initialSurface);
+  const normalizedInitial: SurfaceType =
+    initialSurface === "topology"
+      ? "topology"
+      : initialSurface === "tokens"
+      ? "tokens"
+      : "finscore";
+
+  const [activeSurface, setActiveSurface] = useState<SurfaceType>(normalizedInitial);
+
+  // If viewed from within a dedicated case study page, keep the artifact focused
+  const isDedicatedStudy = Boolean(studySlug);
 
   return (
     <div className="rounded-lg hairline-all bg-[var(--surface)] p-4 md:p-6 space-y-4">
@@ -20,51 +34,57 @@ export function MultiSurfaceSwitcher({
       <div className="flex flex-wrap items-center justify-between border-b border-[var(--hairline)] pb-3 gap-2">
         <div>
           <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-medium">
-            Interactive Product Artifacts
+            Interactive Product Artifact
           </span>
           <h4 className="text-sm font-semibold text-[var(--text-primary)] mt-0.5">
-            Multi-Surface Production Switcher
+            {activeSurface === "finscore"
+              ? "FinScore Analytics & ML Engine"
+              : activeSurface === "topology"
+              ? "Relay Mesh Telemetry Canvas"
+              : "Kernel Token Compiler"}
           </h4>
         </div>
 
-        {/* Surface Tabs */}
-        <div className="flex items-center gap-1.5 font-mono text-xs">
-          <button
-            onClick={() => setActiveSurface("scale")}
-            className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
-              activeSurface === "scale"
-                ? "bg-[var(--text-primary)] text-[var(--bg)] font-semibold"
-                : "hairline-all bg-[var(--bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            }`}
-          >
-            Hardware Scale
-          </button>
-          <button
-            onClick={() => setActiveSurface("topology")}
-            className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
-              activeSurface === "topology"
-                ? "bg-[var(--text-primary)] text-[var(--bg)] font-semibold"
-                : "hairline-all bg-[var(--bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            }`}
-          >
-            Topology Canvas
-          </button>
-          <button
-            onClick={() => setActiveSurface("tokens")}
-            className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
-              activeSurface === "tokens"
-                ? "bg-[var(--text-primary)] text-[var(--bg)] font-semibold"
-                : "hairline-all bg-[var(--bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            }`}
-          >
-            Token Compiler
-          </button>
-        </div>
+        {/* Surface Tabs (Only show cross-project switcher tabs when NOT on a dedicated case study) */}
+        {!isDedicatedStudy && (
+          <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs">
+            <button
+              onClick={() => setActiveSurface("finscore")}
+              className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
+                activeSurface === "finscore"
+                  ? "bg-[var(--text-primary)] text-[var(--bg)] font-semibold"
+                  : "hairline-all bg-[var(--bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              FinScore Engine
+            </button>
+            <button
+              onClick={() => setActiveSurface("topology")}
+              className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
+                activeSurface === "topology"
+                  ? "bg-[var(--text-primary)] text-[var(--bg)] font-semibold"
+                  : "hairline-all bg-[var(--bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              Topology Canvas
+            </button>
+            <button
+              onClick={() => setActiveSurface("tokens")}
+              className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
+                activeSurface === "tokens"
+                  ? "bg-[var(--text-primary)] text-[var(--bg)] font-semibold"
+                  : "hairline-all bg-[var(--bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              Token Compiler
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Embedded Live Component View */}
       <div className="p-2 md:p-4 rounded-md hairline-all bg-[var(--bg)]">
-        {activeSurface === "scale" && <KitchenArtifact />}
+        {activeSurface === "finscore" && <FinScoreArtifact />}
         {activeSurface === "topology" && <RelayMeshArtifact />}
         {activeSurface === "tokens" && <KernelDsArtifact />}
       </div>

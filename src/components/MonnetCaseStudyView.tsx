@@ -20,7 +20,11 @@ export function MonnetCaseStudyView({ study }: MonnetCaseStudyViewProps) {
   };
 
   const initialSurface =
-    study.slug === "kitch-os" ? "scale" : study.slug === "relay-mesh" ? "topology" : "tokens";
+    study.slug === "fin-score" || study.slug === "kitch-os" || study.slug === "faware-os"
+      ? "finscore"
+      : study.slug === "relay-mesh"
+      ? "topology"
+      : "tokens";
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text-primary)] transition-colors duration-150">
@@ -38,17 +42,39 @@ export function MonnetCaseStudyView({ study }: MonnetCaseStudyViewProps) {
 
         {/* 1. Header & Metadata Strip (Locked to 600px) */}
         <header className="max-w-[600px] mx-auto mb-12">
-          <div className="flex items-center justify-between gap-4 mb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
             <h1 className="text-2xl md:text-3xl font-medium tracking-tight text-[var(--text-primary)]">
               {study.title}
             </h1>
 
-            <button
-              onClick={scrollToDemo}
-              className="px-3 py-1.5 rounded-md text-xs font-mono font-medium bg-[var(--text-primary)] text-[var(--bg)] hover:bg-[var(--accent)] hover:text-white transition-all cursor-pointer shadow-xs shrink-0"
-            >
-              Live Demo ↓
-            </button>
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              {study.articleUrl && (
+                <a
+                  href={study.articleUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1.5 rounded-md text-xs font-mono hairline-all bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-muted)] transition-all"
+                >
+                  Article ↗
+                </a>
+              )}
+              {study.githubUrl && (
+                <a
+                  href={study.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1.5 rounded-md text-xs font-mono hairline-all bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-muted)] transition-all"
+                >
+                  Code Repo ↗
+                </a>
+              )}
+              <button
+                onClick={scrollToDemo}
+                className="px-3 py-1.5 rounded-md text-xs font-mono font-medium bg-[var(--text-primary)] text-[var(--bg)] hover:bg-[var(--accent)] hover:text-white transition-all cursor-pointer shadow-xs"
+              >
+                Live Demo ↓
+              </button>
+            </div>
           </div>
 
           <p className="text-[15px] leading-[1.65] text-[var(--text-secondary)] mb-6">
@@ -129,7 +155,7 @@ export function MonnetCaseStudyView({ study }: MonnetCaseStudyViewProps) {
         <section ref={demoRef} className="mb-14 scroll-mt-8">
           <div className="max-w-[600px] mx-auto mb-6 space-y-3">
             <h2 className="text-[13px] font-medium text-[var(--text-muted)] uppercase tracking-[0.06em]">
-              Interactive Multi-Surface Prototype
+              Interactive Product Prototype
             </h2>
             <p className="text-[15px] leading-[1.65] text-[var(--text-secondary)]">
               Try the real component states below. Everything runs client-side in React with real state machines.
@@ -138,7 +164,7 @@ export function MonnetCaseStudyView({ study }: MonnetCaseStudyViewProps) {
 
           {/* Breakout Container (max-w-[920px]) */}
           <div className="max-w-[920px] mx-auto my-8">
-            <MultiSurfaceSwitcher initialSurface={initialSurface} />
+            <MultiSurfaceSwitcher initialSurface={initialSurface} studySlug={study.slug} />
           </div>
         </section>
 

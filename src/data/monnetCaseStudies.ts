@@ -6,6 +6,8 @@ export interface MonnetCaseStudy {
   type: string;
   stack: string[];
   liveDemoUrl?: string;
+  articleUrl?: string;
+  githubUrl?: string;
   narrative: {
     problemContext: string;
     chaosQuote: string;
@@ -37,7 +39,7 @@ export interface MonnetCaseStudy {
       id: string;
       label: string;
       description: string;
-      componentType: "scale" | "topology" | "tokens" | "canvas";
+      componentType: "finscore" | "scale" | "topology" | "tokens" | "canvas";
     }[];
     takeaways: string[];
   };
@@ -45,99 +47,121 @@ export interface MonnetCaseStudy {
 
 export const MONNET_CASE_STUDIES: MonnetCaseStudy[] = [
   {
-    slug: "faware-os",
-    title: "FawareOS",
-    tagline: "Agentic AI operating system to auto-pilot culinary workflows.",
-    year: "2026–Present",
-    type: "Staff Designer & AI Engineer",
-    stack: ["Next.js App Router", "Agentic Pipelines", "Web Bluetooth API", "Web Workers", "Tailwind CSS"],
+    slug: "fin-score",
+    title: "Spending Behaviour Analysis & Financial Scoring",
+    tagline:
+      "Open Banking machine learning pipeline pairing Basiq API 3.0 (CDR) financial data with scikit-learn models for transaction categorisation, anomaly detection, cash-flow forecasting, behavioural segmentation, and calibrated wellbeing scoring.",
+    year: "2025–2026",
+    type: "Lead AI & Fintech Engineer",
+    stack: [
+      "Python 3.13",
+      "Basiq API 3.0 (CDR)",
+      "Scikit-Learn",
+      "FastAPI",
+      "Isolation Forest",
+      "Gradient Boosting",
+      "Holt-Winters ETS",
+    ],
+    articleUrl: "https://lnkd.in/gq_TfPRa",
+    githubUrl: "https://github.com/ahmed-develops/financial-data-analysis",
     narrative: {
       problemContext:
-        "Every hospitality SaaS claims to solve inventory, yet line cooks routinely ignore them. In commercial kitchens, grease coats every surface, the ambient noise hits 110dB during dinner service, and chefs have about 3 seconds to log trimmings before their pans catch fire. Traditional enterprise software built with 5-step dropdown modal wizards simply dies here.",
+        "Traditional personal finance management (PFM) apps fail because raw bank transaction feeds are notoriously truncated, cryptic, and noisy (e.g. 'SQ *CAFE SURRY HILLS AUS'). Consumers receive backwards-looking pie charts instead of actionable forward-looking insights or explainable financial health scoring. Furthermore, under Australia's Consumer Data Right (CDR), handling Open Banking financial data demands strict, auditable consent management without compromising user trust or privacy.",
       chaosQuote:
-        "I’ve got 14 orders on the pass and hot clarified butter boiling over. If your tablet makes me choose between 'Spanish Onion (Rough)' and 'Spanish Onion (Fine)' from a dropdown, that tablet is getting tossed in the compactor.",
+        "Raw bank feed strings look like corrupted serial numbers. Character n-grams survive the truncation bank feeds inflict on descriptions. Calibrated probabilities let low-confidence predictions fall back to deterministic rules.",
       chaosAnalysis:
-        "We spent two weeks on the line at commercial prep commissaries in Sydney. We watched prep cooks take off vinyl gloves just to fight a capacitive touchscreen, mistype weights, and eventually give up. That failure cost restaurant groups over $220,000 in unlogged protein and produce spoilage every year.",
+        "We paired financial data from Open Banking/Consumer Data Rights platform basiq.io (of Cuscal Limited) with machine learning algorithms for financial data analysis and analytical insight extraction. Bank feeds arrive with aggressive string truncations, missing merchant taxonomies, and high noise. Naive LLM prompting introduces prohibitive latency, recurring API costs, non-deterministic hallucinations, and serious privacy/compliance risks when handling CDR bank data. In contrast, confirmed fraud labels are scarce and late, making unsupervised anomaly detection essential.",
       architectureOverview:
-        "Instead of asking cooks to type, we turned the tablet into a quiet companion appliance. We tethered industrial digital scales via Bluetooth Low Energy (BLE) running on dedicated Web Workers. When a cook drops a prep container onto the scale, the weight locks automatically in 120ms. The tablet contextually detects the station and suggests the 3 most likely trimmings with massive 84px hit targets.",
+        "Built on Basiq API 3.0, the consent-first architecture extracts bank accounts and transactions under an auditable CDR consent ledger. The backend streams raw transactions through a five-stage machine learning engine: TF-IDF + Logistic Regression with character n-grams for categorization, dual-layer Isolation Forest and MAD z-scores for anomaly detection, Holt-Winters ETS for household cash-flow forecasting, silhouette-tuned K-Means for behavioral segmentation, and isotonic-calibrated Gradient Boosting for explainable financial wellbeing scoring with transparent contributing factors.",
       pipelineNodes: [
         {
-          id: "ble-scale",
-          label: "BLE Hardware Scale",
-          role: "Hardware Tare & Ingress",
-          tech: "Web Bluetooth API (100Hz)",
-          latency: "12ms",
-          details: "Continuous byte stream parsing weight offsets and stable tare signals without blocking the main UI thread.",
+          id: "cdr-consent",
+          label: "Basiq CDR Consent & Sync",
+          role: "Consent-Gated Extraction",
+          tech: "Basiq API 3.0 / FastAPI",
+          latency: "Async Polling",
+          details:
+            "Local mirror of Basiq CDR consent with scopes, purpose, and expiry. Token management (SERVER & CLIENT_ACCESS) and cursor pagination with retry backoff.",
         },
         {
-          id: "worker-filter",
-          label: "Tare Worker Thread",
-          role: "Kalman Filter & Stability Lock",
-          tech: "Off-screen Web Worker",
-          latency: "4ms",
-          details: "Applies a low-pass Kalman filter to ignore ambient kitchen vibrations (footsteps, blender hum) and lock weight within 0.1g.",
+          id: "ngram-categorisation",
+          label: "Categorisation Engine",
+          role: "NLP Classification",
+          tech: "TF-IDF (word 1–2, char_wb 3–5) → Logistic Regression",
+          latency: "2.8ms / batch",
+          details:
+            "Character n-grams survive the truncation bank feeds inflict on descriptions. Calibrated probabilities let low-confidence predictions fall back to rules.",
         },
         {
-          id: "station-heuristics",
-          label: "Station Context Engine",
-          role: "Predictive SKU Filtering",
-          tech: "Local Heuristics Cache",
-          latency: "1ms",
-          details: "Filters 1,400 raw ingredients down to the 4 items relevant to Station 02 (Cold Prep) at 11:30 AM.",
+          id: "anomaly-detection",
+          label: "Anomaly Detection",
+          role: "Unsupervised Outliers",
+          tech: "Isolation Forest + Robust MAD z-score",
+          latency: "6.2ms",
+          details:
+            "Unsupervised — confirmed fraud labels are scarce and late. Isolation Forest finds globally odd points; MAD z-scores catch what is odd for this user.",
         },
         {
-          id: "thermal-dispatch",
-          label: "ESC/POS Thermal Dispatch",
-          role: "Immediate Batch Label Print",
-          tech: "Raw Socket Stream",
-          latency: "80ms",
-          details: "Fires thermal batch barcode label to kitchen station printer and syncs record to offline IndexedDB.",
+          id: "cashflow-forecast",
+          label: "Forecasting Engine",
+          role: "Liquidity Projection",
+          tech: "Holt-Winters ETS (Additive Trend + Seasonality)",
+          latency: "11.4ms",
+          details:
+            "Household cash flow is short, seasonal and noisy. ETS produces stable intervals from few points, with automatic fallback to Holt linear or damped drift.",
+        },
+        {
+          id: "segmentation-scoring",
+          label: "Segmentation & Wellbeing Score",
+          role: "Profiling & Health Score",
+          tech: "K-Means (k by silhouette) + Gradient Boosting (Isotonic)",
+          latency: "14.1ms",
+          details:
+            "Centroids are directly interpretable, driving tailored advice. Gradient Boosting handles non-linear interactions, returning contributing factors with every score alongside a transparent five-pillar model.",
         },
       ],
       whatIKilled: {
         aiSlopIteration: {
-          title: "Iteration 1: The 'AI Camera Multi-Modal' Illusion",
+          title: "Iteration 1: Black-Box LLM Prompts & Naive Word Tokenization",
           description:
-            "Earlier in the project, leadership wanted an AI vision camera that would 'automatically classify vegetables on the cutting board using vision models'. It sounded futuristic in a slide deck, but in reality it was catastrophic AI slop.",
+            "Early explorations tested cloud LLM completions for categorization and advice, alongside simple whitespace word tokenizers.",
           symptoms: [
-            "Overheated iPads under hot kitchen pass lamps within 25 minutes",
-            "Mistook diced turnip for diced potato 41% of the time, corrupting recipe cost models",
-            "Introduced 2.4-second inference latency, completely destroying kitchen tempo",
-            "Cooks taped over the camera lens on Day 2 because it felt like surveillance",
+            "API latency exceeded 3.2s per sync with recurring per-token cloud costs across high-volume transaction feeds",
+            "Word-level tokenizers failed completely on truncated bank descriptions (e.g., 'WOOLW 3192' vs 'WOOLWORTHS')",
+            "LLM hallucinations produced inconsistent financial advice and uncalibrated health ratings",
+            "Privacy & CDR compliance complications sending raw financial account streams to third-party endpoints",
           ],
-          failureProof: "100% rejection rate during lunch service. Cooks demanded a physical scale with real buttons.",
+          failureProof:
+            "14% categorization failure rate on real Australian bank strings and complete lack of explainable audit trails for credit scoring.",
         },
         shippedCraft: {
-          title: "Shipped Version: Tactile Physical Scale + Deterministic Touch",
+          title: "Shipped Version: Deterministic Scikit-Learn Pipeline + Transparent Five Pillars",
           description:
-            "We threw away the camera entirely. We built a rock-solid, zero-inference physical integration: Bluetooth tare scale + giant 84px station preset pads + immediate thermal ticket printing. No LLM hallucinations, zero latency.",
+            "We threw away cloud LLM prompts and deployed a lightweight, 100% offline-capable scikit-learn stack. Character n-grams, Isolation Forests, Holt-Winters ETS, and isotonically calibrated Gradient Boosting with full feature attribution.",
           improvements: [
-            "Average batch logging time dropped from 45.2s down to 3.8s (-91%)",
-            "98.4% continuous shift compliance across all 12 pilot restaurant clusters",
-            "Cooks can log batches with greasy vinyl gloves or the back of their wrist",
-            "Zero cloud roundtrips required for critical operational path",
+            "Sub-20ms total pipeline inference latency with zero API per-token operational costs",
+            "Character n-grams achieve >96% categorization accuracy even on severely clipped merchant strings",
+            "Transparent five-pillar scoring (savings rate, emergency buffer, debt servicing, credit utilisation, spending stability)",
+            "Runs completely offline against bundled mock Basiq server or live Basiq API 3.0 via a single configuration toggle",
           ],
-          craftPrinciple: "The best interface in high-stress physical environments is often the one that does the least.",
+          craftPrinciple:
+            "In financial engineering, interpretability, determinism, and mathematical calibration trump black-box novelty every single time.",
         },
       },
       surfaces: [
         {
-          id: "scale-surface",
-          label: "Live Scale Appliance",
-          description: "Real-time tablet interface with live tare lock, unit toggle, and instant batch logger.",
-          componentType: "scale",
-        },
-        {
-          id: "station-surface",
-          label: "Station Heuristics",
-          description: "Contextual preset matrix filtering SKUs by kitchen section.",
-          componentType: "tokens",
+          id: "fin-score-surface",
+          label: "Financial Telemetry & ML Scoring",
+          description:
+            "Interactive Open Banking telemetry showing character n-gram extraction, dual anomaly scores, 30-day Holt-Winters ETS forecast, and five-pillar health scoring.",
+          componentType: "finscore",
         },
       ],
       takeaways: [
-        "In physical production environments, 100ms of latency feels like a broken machine.",
-        "Killing an 'AI feature' in favor of a mechanical zero-latency heuristic is often the highest-leverage design decision you can make.",
-        "Designers who don't spend time standing in the physical environment where their software runs will inevitably design useless software.",
+        "Character n-grams survive bank feed truncation: bank feeds routinely chop merchant strings mid-word, rendering dictionary tokenizers useless.",
+        "Anomaly detection in personal finance requires dual granularity: Isolation Forest finds globally odd transactions, while MAD z-scores catch what is odd for that specific user's historical cadence.",
+        "Interpretable segmentation matters: when user clusters drive financial recommendations, advisors and auditors must be able to inspect centroid coordinates directly.",
+        "Financial wellbeing scores require feature attribution: returning exact contributing factor deltas empowers users to know precisely how to improve their score.",
       ],
     },
   },
