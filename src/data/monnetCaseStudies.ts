@@ -62,7 +62,7 @@ export const MONNET_CASE_STUDIES: MonnetCaseStudy[] = [
       "Gradient Boosting",
       "Holt-Winters ETS",
     ],
-    articleUrl: "https://lnkd.in/gq_TfPRa",
+    articleUrl: "https://medium.com/@ma675967/building-an-open-banking-backend-which-reads-your-transaction-and-suggests-what-to-fix-65b026f9887e",
     githubUrl: "https://github.com/ahmed-develops/financial-data-analysis",
     narrative: {
       problemContext:
