@@ -47,6 +47,104 @@ export interface MonnetCaseStudy {
 
 export const MONNET_CASE_STUDIES: MonnetCaseStudy[] = [
   {
+    slug: "faware-os",
+    title: "FawareOS",
+    tagline: "Agentic AI operating system to auto-pilot culinary workflows.",
+    year: "2026–Present",
+    type: "Staff Designer & AI Engineer",
+    stack: ["Next.js App Router", "Agentic Pipelines", "Web Bluetooth API", "Web Workers", "Tailwind CSS"],
+    narrative: {
+      problemContext:
+        "Every hospitality SaaS claims to solve inventory, yet line cooks routinely ignore them. In commercial kitchens, grease coats every surface, the ambient noise hits 110dB during dinner service, and chefs have about 3 seconds to log trimmings before their pans catch fire. Traditional enterprise software built with 5-step dropdown modal wizards simply dies here.",
+      chaosQuote:
+        "I’ve got 14 orders on the pass and hot clarified butter boiling over. If your tablet makes me choose between 'Spanish Onion (Rough)' and 'Spanish Onion (Fine)' from a dropdown, that tablet is getting tossed in the compactor.",
+      chaosAnalysis:
+        "We spent two weeks on the line at commercial prep commissaries in Sydney. We watched prep cooks take off vinyl gloves just to fight a capacitive touchscreen, mistype weights, and eventually give up. That failure cost restaurant groups over $220,000 in unlogged protein and produce spoilage every year.",
+      architectureOverview:
+        "Instead of asking cooks to type, we turned the tablet into a quiet companion appliance. We tethered industrial digital scales via Bluetooth Low Energy (BLE) running on dedicated Web Workers. When a cook drops a prep container onto the scale, the weight locks automatically in 120ms. The tablet contextually detects the station and suggests the 3 most likely trimmings with massive 84px hit targets.",
+      pipelineNodes: [
+        {
+          id: "ble-scale",
+          label: "BLE Hardware Scale",
+          role: "Hardware Tare & Ingress",
+          tech: "Web Bluetooth API (100Hz)",
+          latency: "12ms",
+          details:
+            "Continuous byte stream parsing weight offsets and stable tare signals without blocking the main UI thread.",
+        },
+        {
+          id: "worker-filter",
+          label: "Tare Worker Thread",
+          role: "Kalman Filter & Stability Lock",
+          tech: "Off-screen Web Worker",
+          latency: "4ms",
+          details:
+            "Applies a low-pass Kalman filter to ignore ambient kitchen vibrations (footsteps, blender hum) and lock weight within 0.1g.",
+        },
+        {
+          id: "station-heuristics",
+          label: "Station Context Engine",
+          role: "Predictive SKU Filtering",
+          tech: "Local Heuristics Cache",
+          latency: "1ms",
+          details:
+            "Filters 1,400 raw ingredients down to the 4 items relevant to Station 02 (Cold Prep) at 11:30 AM.",
+        },
+        {
+          id: "thermal-dispatch",
+          label: "ESC/POS Thermal Dispatch",
+          role: "Immediate Batch Label Print",
+          tech: "Raw Socket Stream",
+          latency: "80ms",
+          details:
+            "Fires thermal batch barcode label to kitchen station printer and syncs record to offline IndexedDB.",
+        },
+      ],
+      whatIKilled: {
+        aiSlopIteration: {
+          title: "Iteration 1: The 'AI Camera Multi-Modal' Illusion",
+          description:
+            "Earlier in the project, leadership wanted an AI vision camera that would 'automatically classify vegetables on the cutting board using vision models'. It sounded futuristic in a slide deck, but in reality it was catastrophic AI slop.",
+          symptoms: [
+            "Overheated iPads under hot kitchen pass lamps within 25 minutes",
+            "Mistook diced turnip for diced potato 41% of the time, corrupting recipe cost models",
+            "Introduced 2.4-second inference latency, completely destroying kitchen tempo",
+            "Cooks taped over the camera lens on Day 2 because it felt like surveillance",
+          ],
+          failureProof:
+            "100% rejection rate during lunch service. Cooks demanded a physical scale with real buttons.",
+        },
+        shippedCraft: {
+          title: "Shipped Version: Tactile Physical Scale + Deterministic Touch",
+          description:
+            "We threw away the camera entirely. We built a rock-solid, zero-inference physical integration: Bluetooth tare scale + giant 84px station preset pads + immediate thermal ticket printing. No LLM hallucinations, zero latency.",
+          improvements: [
+            "Average batch logging time dropped from 45.2s down to 3.8s (-91%)",
+            "98.4% continuous shift compliance across all 12 pilot restaurant clusters",
+            "Cooks can log batches with greasy vinyl gloves or the back of their wrist",
+            "Zero cloud roundtrips required for critical operational path",
+          ],
+          craftPrinciple:
+            "The best interface in high-stress physical environments is often the one that does the least.",
+        },
+      },
+      surfaces: [
+        {
+          id: "scale-surface",
+          label: "Live Scale Appliance",
+          description:
+            "Real-time tablet interface with live tare lock, unit toggle, and instant batch logger.",
+          componentType: "scale",
+        },
+      ],
+      takeaways: [
+        "In physical production environments, 100ms of latency feels like a broken machine.",
+        "Killing an 'AI feature' in favor of a mechanical zero-latency heuristic is often the highest-leverage design decision you can make.",
+        "Designers who don't spend time standing in the physical environment where their software runs will inevitably design useless software.",
+      ],
+    },
+  },
+  {
     slug: "fin-score",
     title: "Spending Behaviour Analysis & Financial Scoring",
     tagline:

@@ -2,10 +2,11 @@
 
 import React, { useState } from "react";
 import { FinScoreArtifact } from "./InteractiveArtifacts/FinScoreArtifact";
+import { FawareOsArtifact } from "./InteractiveArtifacts/FawareOsArtifact";
 import { RelayMeshArtifact } from "./InteractiveArtifacts/RelayMeshArtifact";
 import { KernelDsArtifact } from "./InteractiveArtifacts/KernelDsArtifact";
 
-export type SurfaceType = "finscore" | "topology" | "tokens";
+export type SurfaceType = "finscore" | "faware" | "topology" | "tokens";
 
 interface SurfaceSwitcherProps {
   initialSurface?: SurfaceType | string;
@@ -16,14 +17,15 @@ export function MultiSurfaceSwitcher({
   initialSurface = "finscore",
   studySlug,
 }: SurfaceSwitcherProps) {
-  const normalizedInitial: SurfaceType =
-    initialSurface === "topology"
-      ? "topology"
-      : initialSurface === "tokens"
-      ? "tokens"
-      : "finscore";
+  const normalizeSurface = (s?: string): SurfaceType => {
+    if (s === "faware" || s === "faware-os" || s === "scale" || s === "kitch-os") return "faware";
+    if (s === "topology" || s === "relay-mesh") return "topology";
+    if (s === "tokens" || s === "kernel-ds") return "tokens";
+    return "finscore";
+  };
 
-  const [activeSurface, setActiveSurface] = useState<SurfaceType>(normalizedInitial);
+  const currentInitial = normalizeSurface(studySlug || initialSurface);
+  const [activeSurface, setActiveSurface] = useState<SurfaceType>(currentInitial);
 
   // If viewed from within a dedicated case study page, keep the artifact focused
   const isDedicatedStudy = Boolean(studySlug);
@@ -39,6 +41,8 @@ export function MultiSurfaceSwitcher({
           <h4 className="text-sm font-semibold text-[var(--text-primary)] mt-0.5">
             {activeSurface === "finscore"
               ? "FinScore Analytics & ML Engine"
+              : activeSurface === "faware"
+              ? "FawareOS BLE Scale Appliance"
               : activeSurface === "topology"
               ? "Relay Mesh Telemetry Canvas"
               : "Kernel Token Compiler"}
@@ -57,6 +61,16 @@ export function MultiSurfaceSwitcher({
               }`}
             >
               FinScore Engine
+            </button>
+            <button
+              onClick={() => setActiveSurface("faware")}
+              className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
+                activeSurface === "faware"
+                  ? "bg-[var(--text-primary)] text-[var(--bg)] font-semibold"
+                  : "hairline-all bg-[var(--bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              FawareOS Scale
             </button>
             <button
               onClick={() => setActiveSurface("topology")}
@@ -85,6 +99,7 @@ export function MultiSurfaceSwitcher({
       {/* Embedded Live Component View */}
       <div className="p-2 md:p-4 rounded-md hairline-all bg-[var(--bg)]">
         {activeSurface === "finscore" && <FinScoreArtifact />}
+        {activeSurface === "faware" && <FawareOsArtifact />}
         {activeSurface === "topology" && <RelayMeshArtifact />}
         {activeSurface === "tokens" && <KernelDsArtifact />}
       </div>

@@ -46,9 +46,20 @@ export function CommandMenu({
   const items: CommandItem[] = [
     // Case Studies
     {
+      id: "case-faware-os",
+      category: "Case Studies",
+      title: "01 / FawareOS",
+      subtitle: "Agentic AI operating system to auto-pilot culinary workflows",
+      shortcut: "↵",
+      action: () => {
+        onClose();
+        onOpenCaseStudy("faware-os");
+      },
+    },
+    {
       id: "case-fin-score",
       category: "Case Studies",
-      title: "01 / FinScore & Spending Behaviour Analysis",
+      title: "02 / FinScore & Spending Behaviour Analysis",
       subtitle: "Open Banking ML pipeline on Basiq API 3.0 (CDR)",
       shortcut: "↵",
       action: () => {
@@ -59,7 +70,7 @@ export function CommandMenu({
     {
       id: "case-relay-mesh",
       category: "Case Studies",
-      title: "02 / Relay Mesh",
+      title: "03 / Relay Mesh",
       subtitle: "60fps WebGL telemetry graph & distributed trace topology",
       shortcut: "↵",
       action: () => {
@@ -70,7 +81,7 @@ export function CommandMenu({
     {
       id: "case-kernel-ds",
       category: "Case Studies",
-      title: "03 / Kernel DS",
+      title: "04 / Kernel DS",
       subtitle: "Multi-brand headless token compiler & zero-runtime primitives",
       shortcut: "↵",
       action: () => {

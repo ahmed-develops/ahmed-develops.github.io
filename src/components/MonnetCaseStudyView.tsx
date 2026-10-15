@@ -20,8 +20,10 @@ export function MonnetCaseStudyView({ study }: MonnetCaseStudyViewProps) {
   };
 
   const initialSurface =
-    study.slug === "fin-score" || study.slug === "kitch-os" || study.slug === "faware-os"
+    study.slug === "fin-score"
       ? "finscore"
+      : study.slug === "faware-os" || study.slug === "kitch-os"
+      ? "faware"
       : study.slug === "relay-mesh"
       ? "topology"
       : "tokens";

@@ -23,16 +23,18 @@ const PROMPT_RESPONSES: Record<string, ToolResponse> = {
     arguments: { query: "featured", limit: 3 },
     output: {
       title: "Selected Engineering & Product Case Studies",
-      summary: "3 production case studies spanning hardware appliances, WebGL observability, and token compilers.",
-      badge: "3 RESULTS RETURNED",
+      summary: "4 production case studies spanning culinary agentic appliances, Open Banking ML, WebGL observability, and token compilers.",
+      badge: "4 RESULTS RETURNED",
       details: [
+        "FawareOS (2025–2026): Agentic AI culinary OS & BLE scale sync. Reduced meal prep logging friction by 42%.",
         "FinScore (2025–2026): Open Banking ML pipeline on Basiq API 3.0. Reduced transaction classification latency by 91% with >96% accuracy.",
         "Relay Mesh (2024–2025): 60fps WebGL telemetry graph. Collapsed incident triage from 14.2m down to 3.8m.",
         "Kernel DS (2023–2024): Multi-brand headless token compiler. 64% bundle size reduction with zero drift.",
       ],
       rawJson: {
-        total: 3,
+        total: 4,
         projects: [
+          { slug: "faware-os", role: "Staff Designer & AI Engineer", impact: "-42% prep friction" },
           { slug: "fin-score", role: "Lead AI & Fintech Engineer", impact: ">96% categorisation accuracy" },
           { slug: "relay-mesh", role: "Principal Design Engineer", impact: "-73% MTTD" },
           { slug: "kernel-ds", role: "Design Systems Lead", impact: "-64% bundle size" },
